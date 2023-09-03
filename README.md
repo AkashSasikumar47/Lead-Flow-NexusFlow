@@ -97,7 +97,7 @@ We welcome contributions from the community to improve and expand the Lead Manag
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute it in accordance with the license terms.
+This project is licensed under the [GNU General Public License (GNU GPL)](LICENSE). Feel free to use, modify, and distribute it in accordance with the license terms.
 
 Thank you for choosing the Lead Management System for your catering or event planning business. We hope this system helps you streamline your operations and provide exceptional service to your clients. If you have any questions or encounter any issues, please refer to the documentation or reach out to our support team.
 
