@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard - NexusFlow</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/Images/favicon.png" rel="icon">
+  <link href="assets/Images/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/Images/Logo_1.png" alt="">
+        <span class="d-none d-lg-block">NexusFlow</span>
+      </a> <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+    </div><!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-primary badge-number">4</span>
+          </a><!-- End Notification Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+            <li class="dropdown-header">
+              You have 4 new leads notifications
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-exclamation-circle text-warning"></i>
+              <div>
+                <h4>New Lead: John Doe</h4>
+                <p>New lead received from John Doe</p>
+                <p>30 min. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-x-circle text-danger"></i>
+              <div>
+                <h4>Updated Lead: Jane Smith</h4>
+                <p>Lead details for Jane Smith updated</p>
+                <p>1 hr. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-check-circle text-success"></i>
+              <div>
+                <h4>New Lead: Mark Johnson</h4>
+                <p>New lead received from Mark Johnson</p>
+                <p>2 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-info-circle text-primary"></i>
+              <div>
+                <h4>Updated Lead: Emily Brown</h4>
+                <p>Lead details for Emily Brown updated</p>
+                <p>4 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li class="dropdown-footer">
+              <a href="#">Show all leads notifications</a>
+            </li>
+          </ul><!-- End Leads Notifications Dropdown Items -->
+        </li><!-- End Leads Notifications Nav -->
+
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-chat-left-text"></i>
+            <span class="badge bg-success badge-number">3</span>
+          </a><!-- End Messages Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+            <li class="dropdown-header">
+              You have 3 new messages
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/Images/messages-1.jpeg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Lara Jade</h4>
+                  <p>Hello, are you available for a meeting tomorrow?</p>
+                  <p>4 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/Images/messages-2.jpeg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Jane Smith</h4>
+                  <p>Can you please share the updated sales report?</p>
+                  <p>6 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/Images/messages-3.jpeg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Ana Johnson</h4>
+                  <p>Great job on the project! Let's celebrate our success.</p>
+                  <p>8 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="dropdown-footer">
+              <a href="#">Show all messages</a>
+            </li>
+          </ul><!-- End Messages Dropdown Items -->
+        </li><!-- End Messages Nav -->
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="assets/Images/profile-img.JPG" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Natalie</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>Natalie Wilson</h6>
+              <span>Web Developer</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="ST-user-settings.html">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="ST-general-settings.html">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" onclick="openWhatsAppChat()">
+                <i class="bi bi-question-circle"></i>
+                <span>Need Help?</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="pages-login.html">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="index.html">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#main-menu-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Main Menu</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="main-menu-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="menu-canapés-finger-foods.html">
+              <i class="bi bi-circle"></i><span>Canapés & Finger Foods</span>
+            </a>
+          </li>
+          <li>
+            <a href="menu-breakfast.html">
+              <i class="bi bi-circle"></i><span>Breakfast</span>
+            </a>
+          </li>
+          <li>
+            <a href="menu-salads.html">
+              <i class="bi bi-circle"></i><span>Salads</span>
+            </a>
+          </li>
+          <li>
+            <a href="menu-main-courses.html">
+              <i class="bi bi-circle"></i><span>Main Courses</span>
+            </a>
+          </li>
+          <li>
+            <a href="menu-live-stations.html">
+              <i class="bi bi-circle"></i><span>Live Stations</span>
+            </a>
+          </li>
+          <li>
+            <a href="menu-desserts.html">
+              <i class="bi bi-circle"></i><span>Desserts</span>
+            </a>
+          </li>
+          <li>
+            <a href="menu-beverage-selection.html">
+              <i class="bi bi-circle"></i><span>Beverage Selection</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Main Menu Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#lead-management-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-people"></i><span>Lead Management</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="lead-management-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="LM-lead-tracking-and-organization.html">
+              <i class="bi bi-circle"></i><span>Lead Tracking and Organization</span>
+            </a>
+          </li>
+          <li>
+            <a href="LM-follow-ups-and-reminders.html">
+              <i class="bi bi-circle"></i><span>Follow-ups and Reminders</span>
+            </a>
+          </li>
+          <li>
+            <a href="LM-lead-conversion.html">
+              <i class="bi bi-circle"></i><span>Lead Conversion</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Lead Management Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#event-management-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-calendar-event"></i><span>Event Management</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="event-management-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="EM-event-details-and-specifications.html">
+              <i class="bi bi-circle"></i><span>Event Details and Specifications</span>
+            </a>
+          </li>
+          <li>
+            <a href="EM-venue-selection-and-availability.html">
+              <i class="bi bi-circle"></i><span>Venue Selection and Availability</span>
+            </a>
+          </li>
+          <li>
+            <a href="EM-menu-customization-and-planning.html">
+              <i class="bi bi-circle"></i><span>Menu Customization and Planning</span>
+            </a>
+          </li>
+          <li>
+            <a href="EM-equipment-and-rental-management.html">
+              <i class="bi bi-circle"></i><span>Equipment and Rental Management</span>
+            </a>
+          </li>
+          <li>
+            <a href="EM-vendor-and-supplier-coordination.html">
+              <i class="bi bi-circle"></i><span>Vendor and Supplier Coordination</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Event Management Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#financial-management-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-currency-dollar"></i><span>Financial Management</span><i
+            class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="financial-management-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="FM-cost-estimation-and-budgeting.html">
+              <i class="bi bi-circle"></i><span>Cost Estimation and Budgeting</span>
+            </a>
+          </li>
+          <li>
+            <a href="FM-pricing-and-package-management.html">
+              <i class="bi bi-circle"></i><span>Pricing and Package Management</span>
+            </a>
+          </li>
+          <li>
+            <a href="FM-invoicing-and-payment-tracking.html">
+              <i class="bi bi-circle"></i><span>Invoicing and Payment Tracking</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Financial Management Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#feedback-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-star"></i><span>Feedback & Reviews</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="feedback-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="FR-feedback-collection-and-analysis.html">
+              <i class="bi bi-circle"></i><span>Feedback Collection and Analysis</span>
+            </a>
+          </li>
+          <li>
+            <a href="FR-customer-reviews-and-testimonials.html">
+              <i class="bi bi-circle"></i><span>Customer Reviews and Testimonials</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Feedback & Reviews Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#settings-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-gear"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="settings-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="ST-general-settings.html">
+              <i class="bi bi-circle"></i><span>General Settings</span>
+            </a>
+          </li>
+          <li>
+            <a href="ST-user-settings.html">
+              <i class="bi bi-circle"></i><span>User Settings</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Settings Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-contact.html">
+          <i class="bi bi-question-circle"></i>
+          <span>Help?</span>
+        </a>
+      </li><!-- End Help Nav -->
+
+    </ul>
+
+  </aside><!-- End Sidebar -->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Main Courses</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Main Menu</li>
+          <li class="breadcrumb-item active">Main Courses</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Arabic Main Course Selection</h5>
+              <!-- Default List group -->
+              <ul class="list-group">
+                <li class="list-group-item">Bamieh Bel Lahmeh Bazella Bel Lahmeh</li>
+                <li class="list-group-item">Chicken Kabseh</li>
+                <li class="list-group-item">Chicken Makloubeh</li>
+                <li class="list-group-item">Chicken Mandi</li>
+                <li class="list-group-item">Chicken Mougrabieh</li>
+                <li class="list-group-item">Chicken Mouloukhieh</li>
+                <li class="list-group-item">Dajaj Al Faham</li>
+                <li class="list-group-item">Dajaj Bel Saynieh with Lemon & Coriander Sauce</li>
+                <li class="list-group-item">Dawood Basha</li>
+                <li class="list-group-item">Fassolia Bel Lahmeh</li>
+                <li class="list-group-item">Fish Kabseh</li>
+                <li class="list-group-item">Fish Sayadieh</li>
+                <li class="list-group-item">Kafta Bel Saynieh</li>
+                <li class="list-group-item">Kebbeh Bel Laban</li>
+                <li class="list-group-item">Kebbeh Bel Saynieh</li>
+                <li class="list-group-item">Koussa & Warak Enab Bel Lahmeh (Special)</li>
+                <li class="list-group-item">Loubieh Bel Lahmeh</li>
+                <li class="list-group-item">Mahshi Malfouf</li>
+                <li class="list-group-item">Oriental Chicken with Oriental Rice</li>
+                <li class="list-group-item">Roast Lamb with Oriental Rice</li>
+                <li class="list-group-item">Samkeh Harra with Tahina / Tomato Sauce</li>
+                <li class="list-group-item">Stuffed Koussa with Tomato Sauce</li>
+                <li class="list-group-item">Stuffed Vine Leaves with Meat</li>
+                <li class="list-group-item">Sheikh El Mehshi</li>
+                <li class="list-group-item">Traditional Mix Grill (Special)</li>
+              </ul><!-- End Default List group -->
+
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">International Main Course Selection</h5>
+              <!-- Default List group -->
+              <ul class="list-group">
+                <li class="list-group-item">Baked Orange Chicken</li>
+                <li class="list-group-item">Baked Salmon Fillet with Spinach & Orange Saffron Sauce (Special)</li>
+                <li class="list-group-item">Baked Salmon on bed of Cream & Spinach (Special)</li>
+                <li class="list-group-item">Basil, Beef and Eggplant Stir-fry</li>
+                <li class="list-group-item">BBQ Chicken with BBQ Sauce</li>
+                <li class="list-group-item">Beef / Chicken Stroganoff</li>
+                <li class="list-group-item">Beef / Chicken / Fish Teriyaki</li>
+                <li class="list-group-item">Beef Wellington with Cream & Mushroom Sauce (Special)</li>
+                <li class="list-group-item">Butter Fried Fish</li>
+                <li class="list-group-item">Cantonese Lemon Chicken</li>
+                <li class="list-group-item">Cheesy Mediterranean Chicken Casserole with Beans (Low Carb - Special)</li>
+                <li class="list-group-item">Chicken / Fish Pane with Tartar Sauce</li>
+                <li class="list-group-item">Chicken Ala King</li>
+                <li class="list-group-item">Chicken Casserole</li>
+                <li class="list-group-item">Chicken or Beef Satay with Peanut Butter Sauce</li>
+                <li class="list-group-item">Creamy Garlic Chicken Thighs with Mushrooms & Green Beans (Low Carb -
+                  Special)</li>
+                <li class="list-group-item">Creamy Pan Fried Chicken with Fresh Lemon Coleslaw (Low Carb - Special)</li>
+                <li class="list-group-item">Fish & Chips</li>
+                <li class="list-group-item">Fried Fish Topped with Sweet Chili Sauce</li>
+                <li class="list-group-item">Grilled Beef Patty with Mixed Bell Pepper Sauce</li>
+                <li class="list-group-item">Grilled Coriander-Cumin Chicken with Cilantro-Yogurt Dipping Sauce</li>
+                <li class="list-group-item">Grilled Fish with Lemon Butter Sauce</li>
+                <li class="list-group-item">Grilled Prawns with Tartar Sauce (Special)</li>
+                <li class="list-group-item">Grilled Salmon with Caper Sauce (Special)</li>
+                <li class="list-group-item">Grilled Tenderloin Steak with Black Pepper Sauce / Mushroom Sauce (Special)
+                </li>
+                <li class="list-group-item">Honey Garlic Fish</li>
+                <li class="list-group-item">Honey Mustard Glazed Chicken Baked</li>
+                <li class="list-group-item">Meat Balls with Tomato Sauce</li>
+                <li class="list-group-item">Mexican Chicken</li>
+                <li class="list-group-item">Mongolian Beef / Chicken</li>
+                <li class="list-group-item">Oven Paprika Chicken with Cranberry Sauce</li>
+                <li class="list-group-item">Pepper Steak with Broccoli & Mushroom Sauce</li>
+                <li class="list-group-item">Poached Chicken Breast in Lemon Thyme Sauce (Low Carb - Special)</li>
+                <li class="list-group-item">Pretzel Chicken with Brussels Sprout</li>
+                <li class="list-group-item">Roasted Chicken with Fennel & Orange sauce</li>
+                <li class="list-group-item">Stir Fry Chicken with Cashewnuts</li>
+                <li class="list-group-item">Stuffed Chicken Breast with Brie Cheese & Mushroom Sauce (Special)</li>
+                <li class="list-group-item">Sweet & Sour Fish with Pineapple & Ginger</li>
+                <li class="list-group-item">Thai Chicken with Oyster Sauce</li>
+                <li class="list-group-item">Toasted Sesame Ginger Salmon (Special)</li>
+              </ul><!-- End Default List group -->
+
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Continental Vegetable Selection</h5>
+              <!-- Default List group -->
+              <ul class="list-group">
+                <li class="list-group-item">Butter Vegetables</li>
+                <li class="list-group-item">Candied Vegetables</li>
+                <li class="list-group-item">Cauliflower Gratin with Cheese</li>
+                <li class="list-group-item">Chinese Vegetable Chopsuey</li>
+                <li class="list-group-item">Corn on the cob with carrot</li>
+                <li class="list-group-item">Glazed Vegetables</li>
+                <li class="list-group-item">Grilled Mixed Vegetables with Pesto Sauce</li>
+                <li class="list-group-item">Italian Roasted Vegetables with Herbs</li>
+                <li class="list-group-item">Lemon Garlic Roasted Broccoli and Carrots</li>
+                <li class="list-group-item">Red Lentil & Sweet Potato Curry with Spinach (Special)</li>
+                <li class="list-group-item">Red Tofu Curry with Mushrooms (Special)</li>
+                <li class="list-group-item">Steamed Mixed Vegetables</li>
+                <li class="list-group-item">Stir Fried Chinese Vegetables</li>
+                <li class="list-group-item">Stir Fry Vegetable with Oyster Sauce</li>
+                <li class="list-group-item">Sweet & Sour Mixed Vegetables</li>
+                <li class="list-group-item">Thai Vegetable Curry</li>
+                <li class="list-group-item">Vegetable Ginger Garlic Sauce</li>
+                <li class="list-group-item">Vegetable Manchurian</li>
+                <li class="list-group-item">Vegetable Medley with Cream Sauce</li>
+                <li class="list-group-item">Vegetable Risotto (Special)</li>
+                <li class="list-group-item">Vegetable Szechuan</li>
+                <li class="list-group-item">Vegetable Tempura</li>
+              </ul><!-- End Default List group -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Indian Main Course Selection</h5>
+              <!-- Default List group -->
+              <ul class="list-group">
+                <li class="list-group-item">Butter Chicken</li>
+                <li class="list-group-item">Chicken Biryani</li>
+                <li class="list-group-item">Chicken Chettinad</li>
+                <li class="list-group-item">Chicken Gravy Punjabi Style</li>
+                <li class="list-group-item">Chicken Jalfrezi</li>
+                <li class="list-group-item">Chicken Kadai</li>
+                <li class="list-group-item">Chicken Keema Matar</li>
+                <li class="list-group-item">Chicken Korma</li>
+                <li class="list-group-item">Chicken Palak</li>
+                <li class="list-group-item">Chicken Pulao</li>
+                <li class="list-group-item">Chicken / Fish Tandoori with Mint Chutney</li>
+                <li class="list-group-item">Chilli Chicken / Fish</li>
+                <li class="list-group-item">Chicken / Fish Tikka with Mint Chutney (Special)</li>
+                <li class="list-group-item">Fish Drumstick Curry</li>
+                <li class="list-group-item">Lemon Pepper Fish Fry</li>
+                <li class="list-group-item">Mutton Biryani (Special)</li>
+                <li class="list-group-item">Mutton Keema (Special)</li>
+                <li class="list-group-item">Mutton Korma (Special)</li>
+                <li class="list-group-item">Mutton Roganjosh (Special)</li>
+                <li class="list-group-item">Mutton Seekh Kebab (Special)</li>
+                <li class="list-group-item">Mutton Vindaloo (Special)</li>
+                <li class="list-group-item">Spicy Mutton Curry in Tomato Gravy (Special)</li>
+              </ul><!-- End Default List group -->
+
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Filipino Main Course Selection</h5>
+              <!-- Default List group -->
+              <ul class="list-group">
+                <li class="list-group-item">Beef Dinakdakan</li>
+                <li class="list-group-item">Beef Kare-Kare with Bagoong on the side</li>
+                <li class="list-group-item">Beef Steak Tagalog</li>
+                <li class="list-group-item">Beef Tapa</li>
+                <li class="list-group-item">Bicol Express</li>
+                <li class="list-group-item">Bopis na Manok</li>
+                <li class="list-group-item">Chicken / Beef Caldereta</li>
+                <li class="list-group-item">Chicken / Beef Mechado</li>
+                <li class="list-group-item">Chicken / Beef Menudo</li>
+                <li class="list-group-item">Chicken Adobo with Egg</li>
+                <li class="list-group-item">Chicken Embotido</li>
+                <li class="list-group-item">Chicken Inasal with Mang Tomas / Soy Sauce</li>
+                <li class="list-group-item">Chicken Lechon Paksiw</li>
+                <li class="list-group-item">Chicken Tinola with Papaya</li>
+                <li class="list-group-item">Daing na Bangus</li>
+                <li class="list-group-item">Escabecheng Isda</li>
+                <li class="list-group-item">Fish Fry with Monggo</li>
+                <li class="list-group-item">Nilagang Manok / Baka</li>
+                <li class="list-group-item">Paksiw na Bangus</li>
+                <li class="list-group-item">Pancit Bihon / Canton / Palabok</li>
+                <li class="list-group-item">Pinakbet</li>
+                <li class="list-group-item">Pininyahang Manok</li>
+                <li class="list-group-item">Sinigang na Bangus / Manok</li>
+                <li class="list-group-item">Vegetable Chopsuey</li>
+              </ul><!-- End Default List group -->
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Pasta / Noodles Selection</h5>
+              <!-- Default List group -->
+              <ul class="list-group">
+                <li class="list-group-item">Alfredo Alla Pesto</li>
+                <li class="list-group-item">Autumn Pumpkin Spinach Beetroot Lasagna</li>
+                <li class="list-group-item">Baked Eggplant Parmigiana</li>
+                <li class="list-group-item">Baked Mac Mushroom & Cheese</li>
+                <li class="list-group-item">Baked Tagliatelle with Cheese & Mushroom</li>
+                <li class="list-group-item">Chicken Caesar Pasta (Non-veg)</li>
+                <li class="list-group-item">Chinese Style Noodles</li>
+                <li class="list-group-item">Creamy Butternut Squash Pasta with Pine Nuts (Special)</li>
+                <li class="list-group-item">Creamy Chicken Pesto Pasta (Non-veg)</li>
+                <li class="list-group-item">Creamy Garlic Butter Pasta</li>
+                <li class="list-group-item">Creamy Pepper and Tomato Pasta (Vegan)</li>
+                <li class="list-group-item">Fusilli Pasta with Vegetables</li>
+                <li class="list-group-item">Hakka Tofu Noodles</li>
+                <li class="list-group-item">Italian Pasta with Mushroom Sauce</li>
+                <li class="list-group-item">Fettuccine Alfredo (Special)</li>
+                <li class="list-group-item">Macaroni al Pesto</li>
+                <li class="list-group-item">Macaroni Bechamel</li>
+                <li class="list-group-item">Pasta Carbonara</li>
+                <li class="list-group-item">Penne Arrabiata with Parmesan Cheese</li>
+                <li class="list-group-item">Penne Carbonara with Broccoli</li>
+                <li class="list-group-item">Penne Pomodoro</li>
+                <li class="list-group-item">Singaporean Noodles</li>
+                <li class="list-group-item">Spaghetti Alla Carbonara</li>
+                <li class="list-group-item">Spaghetti Alla Puttanesca</li>
+                <li class="list-group-item">Spaghetti Bolognese (Non-veg)</li>
+                <li class="list-group-item">Spaghetti in Creamy Tomato Sauce with Pesto (Vegan)</li>
+                <li class="list-group-item">Spinach Ravioli (Special)</li>
+                <li class="list-group-item">Tagliatelle Marinara</li>
+                <li class="list-group-item">Teriyaki Mushroom & Broccoli Noodles</li>
+                <li class="list-group-item">Vegetable Chow Mein</li>
+                <li class="list-group-item">Vegetable Lasagna</li>
+              </ul><!-- End Default List group -->
+
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Potato Selection (Special)</h5>
+              <!-- Default List group -->
+              <ul class="list-group">
+                <li class="list-group-item">Baked French Onion Potato</li>
+                <li class="list-group-item">Baked Potato with Cheese & Cream (Special)</li>
+                <li class="list-group-item">Duchess Potato (Special)</li>
+                <li class="list-group-item">Lyonnaise Potato</li>
+                <li class="list-group-item">Mashed Potato</li>
+                <li class="list-group-item">Mexican Potato</li>
+                <li class="list-group-item">Parsley Potato</li>
+                <li class="list-group-item">Perogies Potato (Special)</li>
+                <li class="list-group-item">Potato Boulangere</li>
+                <li class="list-group-item">Potato Fondant (Special)</li>
+                <li class="list-group-item">Potato Wedges</li>
+                <li class="list-group-item">Roasted Potato with Herbs</li>
+                <li class="list-group-item">Spicy Potato</li>
+                <li class="list-group-item">Whole Baked Potato (Special)</li>
+              </ul><!-- End Default List group -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NexusFlow</span></strong>. All Rights Reserved
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
