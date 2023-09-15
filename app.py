@@ -27,6 +27,21 @@ def login():
 def Inquiries():
     return render_template('M-Inquiries.html')
 
+#/M-Proposals
+@app.route('/M-Proposals',methods=['GET','POST'])
+def Proposals():
+    return render_template('M-Proposals.html')
+
+#/ST-user-settings
+
+@app.route('/ST-user-settings',methods=['GET','POST'])
+def usersettings():
+    return render_template('ST-user-settings.html')
+
+#/pages-contact
+@app.route('/pages-contact',methods=['GET','POST'])
+def pagescontact():
+    return render_template('pages-contact.html')
 
 
 
