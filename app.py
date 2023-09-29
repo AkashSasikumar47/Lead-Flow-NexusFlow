@@ -29,11 +29,28 @@ def settings():
 def login():
     return render_template('pages-login.html')
 
+
 #/M-Inquiries
 
 @app.route('/M-Inquiries',methods=['GET','POST'])
 def Inquiries():
-    return render_template('M-Inquiries.html')
+    if request.method == 'GET':
+        Inquiries = Inquiry.query.all()
+        return render_template('M-Inquiries.html',Inquiries=Inquiries)
+    if request.method == 'POST':
+        a = request.form['floatingName']
+        b = request.form['floatingSources']
+        c = request.form['floatingEventDate']
+        h = request.form['floatingPax']
+        d = request.form['floatingFoodType']
+        e = request.form['floatingEmail']
+        f = request.form['Contact_number']
+        g = request.form['status']
+        # print(a,b,c,d,f,g,h)
+        inquiry = Inquiry(lead_name=a,Sources=b,date_of_event=c,Pax=h,req_food=d,email=e,contact_no=f,progress=g)
+        db.session.add(inquiry)
+        db.session.commit()
+        return redirect('/M-Inquiries')
 
 #/M-Proposals
 @app.route('/M-Proposals',methods=['GET','POST'])
