@@ -1,10 +1,18 @@
 from flask import Flask, render_template ,request,redirect, url_for
 from model import *
 import os
+import psycopg2
 from flask_cors import CORS
 
+#==============================configuration===============================
+
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:1610@localhost/Lead_flow'
+#CORS(app)
+db.init_app(app)
 app.app_context().push()
+
 
 @app.route('/',methods=['GET','POST'])
 def home():
