@@ -494,7 +494,7 @@
                                 <table class="table datatable">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
+                                            <th scope="col">ID</th>
                                             <th scope="col">Lead Name</th>
                                             <th scope="col">Number of Pax</th>
                                             <th scope="col">Sources</th>
@@ -513,8 +513,16 @@
                                             <td>{{inquiry.contact_no}}</td>
                                             <td>{{inquiry.date_of_event}}</td>
                                             <td>
+                                                {% if inquiry.progress == 'Confirmed' %}
+                                                <span class="badge bg-confirmed badge-pill"><i
+                                                        class="bi bi-emoji-sunglasses me-1"></i> {{inquiry.progress}}</span>
+                                                {% elif inquiry.progress == 'In progress' %}
                                                 <span class="badge bg-progress badge-pill"><i
-                                                        class="bi bi-emoji-neutral me-1"></i> {{inquiry.progress}}</span>
+                                                    class="bi bi-emoji-neutral me-1"></i> {{inquiry.progress}}</span>
+                                                {% elif inquiry.progress == 'Lost' %}
+                                                <span class="badge bg-lost badge-pill"><i
+                                                    class="bi bi-emoji-frown me-1"></i> {{inquiry.progress}}</span>
+                                                {% endif %}
                                             </td>
                                             <td>
                                                 <div class="dropdown">
