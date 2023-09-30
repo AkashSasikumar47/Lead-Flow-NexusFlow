@@ -396,18 +396,18 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form class="row g-3">
+                                            <form class="row g-3" method="post" >
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
                                                         <input type="text" class="form-control" id="floatingName"
-                                                            placeholder="Lead Name">
+                                                            placeholder="Lead Name" name="floatingName">
                                                         <label for="floatingName">Lead Name</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
                                                         <select class="form-select" id="floatingSources"
-                                                            aria-label="Sources">
+                                                            aria-label="Sources" name="floatingSources">
                                                             <option selected disabled>Choose...</option>
                                                             <option value="Call">Call</option>
                                                             <option value="Email">Email</option>
@@ -422,36 +422,36 @@
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
                                                         <input type="date" class="form-control" id="floatingEventDate"
-                                                            placeholder="Date of the Event">
+                                                            placeholder="Date of the Event" name="floatingEventDate">
                                                         <label for="floatingEventDate">Date of the Event</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
                                                         <input type="number" class="form-control" id="floatingPax"
-                                                            placeholder="No. of Pax">
+                                                            placeholder="No. of Pax" name="floatingPax">
                                                         <label for="floatingPax">No. of Pax</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
                                                         <textarea class="form-control" id="floatingFoodType"
-                                                            placeholder="Exact Food Type Required" rows="4"></textarea>
+                                                            placeholder="Exact Food Type Required" rows="4" name="floatingFoodType"></textarea>
                                                         <label for="floatingFoodType">Exact Food Type Required</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
                                                         <input type="email" class="form-control" id="floatingEmail"
-                                                            placeholder="Email address">
+                                                            placeholder="Email address" name="floatingEmail">
                                                         <label for="floatingEmail">Email address</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
                                                         <input type="tel" class="form-control"
-                                                            id="floatingContactNumber" placeholder="Contact number"
-                                                            value="+971">
+                                                            id="floatingContactNumber" placeholder="Contact_number"
+                                                            value="+971" name="Contact_number">
                                                         <label for="floatingContactNumber">Contact number</label>
                                                     </div>
                                                 </div>
@@ -480,7 +480,7 @@
                                                 </div>
                                                 <div class="col-12 text-center">
                                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                                    <button type="reset" class="btn btn-secondary">Reset</button>
+                                                    <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
                                                 </div>
                                             </form>
                                         </div>
@@ -494,7 +494,7 @@
                                 <table class="table datatable">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
+                                            <th scope="col">ID</th>
                                             <th scope="col">Lead Name</th>
                                             <th scope="col">Number of Pax</th>
                                             <th scope="col">Sources</th>
@@ -505,15 +505,24 @@
                                     </thead>
                                     <tbody>
                                         <!-- Sample data rows -->
+                                        {% for inquiry in Inquiries %}
                                         <tr>
-                                            <th scope="row">1</th>
-                                            <td>Brandon Jacob</td>
-                                            <td>100</td>
-                                            <td>Call</td>
-                                            <td>2023-07-10</td>
+                                            <th scope="row">{{inquiry.id}}</th>
+                                            <td>{{inquiry.lead_name}}</td>
+                                            <td>{{inquiry.Pax}}</td>
+                                            <td>{{inquiry.contact_no}}</td>
+                                            <td>{{inquiry.date_of_event}}</td>
                                             <td>
+                                                {% if inquiry.progress == 'Confirmed' %}
+                                                <span class="badge bg-confirmed badge-pill"><i
+                                                        class="bi bi-emoji-sunglasses me-1"></i> {{inquiry.progress}}</span>
+                                                {% elif inquiry.progress == 'In progress' %}
                                                 <span class="badge bg-progress badge-pill"><i
-                                                        class="bi bi-emoji-neutral me-1"></i> In Progress</span>
+                                                    class="bi bi-emoji-neutral me-1"></i> {{inquiry.progress}}</span>
+                                                {% elif inquiry.progress == 'Lost' %}
+                                                <span class="badge bg-lost badge-pill"><i
+                                                    class="bi bi-emoji-frown me-1"></i> {{inquiry.progress}}</span>
+                                                {% endif %}
                                             </td>
                                             <td>
                                                 <div class="dropdown">
@@ -523,14 +532,14 @@
                                                         <i class="bi bi-telephone"></i>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="mailto:bridie@example.com">Email:
-                                                            brandon@example.com</a>
+                                                        <a class="dropdown-item" href="mailto:{{inquiry.email}}">Email:
+                                                            {{inquiry.email}}</a>
                                                         <a class="dropdown-item" href="tel:9876543210">Contact Number:
-                                                            9876643210</a>
+                                                            {{inquiry.contact_no}}</a>
                                                     </div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <th scope="row">2</th>
                                             <td>Bridie Kessler</td>
                                             <td>350</td>
@@ -636,7 +645,8 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </tr> -->
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
