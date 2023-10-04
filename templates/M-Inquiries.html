@@ -580,7 +580,7 @@
                                                     </div>
                                             </td>
                                             <td>
-                                                <!-- delete button
+                                                <!-- delete button -->
                                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{inquiry.id}}">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
@@ -596,12 +596,12 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                                <button type="button" class="btn btn-danger">Delete</button>
+                                                                <button onclick="delete_inquiry('{{ inquiry.id }}')"  type="button" class="btn btn-danger">Delete</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>                                                                                                                                 
-                                            </td> -->
+                                            </td>
                                         </tr>
                                         <!-- <tr>
                                             <th scope="row">2</th>
@@ -749,6 +749,17 @@
 
     function edit_inquiry(id,status) {
         fetch(`/edit_inquiry/${id}/${status}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    function delete_inquiry(id) {
+        fetch(`/delete_inquiry/${id}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);

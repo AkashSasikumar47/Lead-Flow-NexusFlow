@@ -62,6 +62,15 @@ def edit_inquiry(id,status):
     db.session.commit()
     return jsonify({'message': 'Status Updated'})
 
+#/delete_inquiry/${id}
+@app.route('/delete_inquiry/<int:id>',methods=['GET','POST'])
+def delete_inquiry(id):
+    #delete inquiry
+    i = Inquiry.query.filter_by(id=id).first()
+    db.session.delete(i)
+    db.session.commit()
+    return jsonify({'message': 'Inquiry Deleted'})
+
     
 
 #/M-Proposals
