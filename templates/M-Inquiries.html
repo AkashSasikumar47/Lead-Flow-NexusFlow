@@ -30,6 +30,10 @@
 
     <!-- Template Main CSS File -->
     <link href="static/assets/css/style.css" rel="stylesheet">
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1do4A+gf8k5l7l4lMz4i3WDQn1Z7y/JonasIUNsobU+KZgCkAZKtSso" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqFjcJ6pajs/rfdfs3SO+kD5tr5Szkbe5Ck4Ck4C2DgHf" crossorigin="anonymous"></script>
+ -->
 
 </head>
 
@@ -501,6 +505,7 @@
                                             <th scope="col">D.O.E</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Contact</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -516,13 +521,49 @@
                                                 {% if inquiry.progress == 'Confirmed' %}
                                                 <span class="badge bg-confirmed badge-pill"><i
                                                         class="bi bi-emoji-sunglasses me-1"></i> {{inquiry.progress}}</span>
-                                                {% elif inquiry.progress == 'In progress' %}
+                                                {% elif inquiry.progress == 'Inprogress' %}
                                                 <span class="badge bg-progress badge-pill"><i
                                                     class="bi bi-emoji-neutral me-1"></i> {{inquiry.progress}}</span>
                                                 {% elif inquiry.progress == 'Lost' %}
                                                 <span class="badge bg-lost badge-pill"><i
                                                     class="bi bi-emoji-frown me-1"></i> {{inquiry.progress}}</span>
                                                 {% endif %}
+                                                <!-- Edit Status Modal -->
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{inquiry.id}}">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                
+                                                <div class="modal fade" id="editModal{{inquiry.id}}" tabindex="-1" aria-labelledby="editModalLabel{{inquiry.id}}" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="editModalLabel{{inquiry.id}}"> <div>Edit Status</div> Current Status is {% if inquiry.progress == 'Confirmed' %}
+                                                                    <span class="badge bg-confirmed badge-pill"><i
+                                                                            class="bi bi-emoji-sunglasses me-1"></i> {{inquiry.progress}}</span>
+                                                                    {% elif inquiry.progress == 'Inprogress' %}
+                                                                    <span class="badge bg-progress badge-pill"><i
+                                                                        class="bi bi-emoji-neutral me-1"></i> {{inquiry.progress}}</span>
+                                                                    {% elif inquiry.progress == 'Lost' %}
+                                                                    <span class="badge bg-lost badge-pill"><i
+                                                                        class="bi bi-emoji-frown me-1"></i> {{inquiry.progress}}</span>
+                                                                    {% endif %}</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <label for="statusDropdown{{inquiry.id}}">Status:</label>
+                                                                <select class="form-select" id="statusDropdown{{inquiry.id}}">
+                                                                    <option value="Confirmed">Confirmed</option>
+                                                                    <option value="Inprogress">In progress</option>
+                                                                    <option value="Lost">Lost</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="button" onclick="edit_inquiry('{{ inquiry.id }}', document.getElementById('statusDropdown{{inquiry.id}}').value)" class="btn btn-primary" id="submitStatus{{inquiry.id}}">Submit</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <div class="dropdown">
@@ -534,9 +575,32 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item" href="mailto:{{inquiry.email}}">Email:
                                                             {{inquiry.email}}</a>
-                                                        <a class="dropdown-item" href="tel:9876543210">Contact Number:
+                                                        <a class="dropdown-item" href="tel:{{inquiry.contact_no}}">Contact Number:
                                                             {{inquiry.contact_no}}</a>
                                                     </div>
+                                            </td>
+                                            <td>
+                                                <!-- delete button -->
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{inquiry.id}}">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                                <div class="modal fade" id="deleteModal{{inquiry.id}}" tabindex="-1" aria-labelledby="deleteModalLabel{{inquiry.id}}" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="deleteModalLabel{{inquiry.id}}">Confirm Deletion</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                This action cannot be redone. Are you sure?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                <button onclick="delete_inquiry('{{ inquiry.id }}')"  type="button" class="btn btn-danger">Delete</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                                                                                                 
                                             </td>
                                         </tr>
                                         <!-- <tr>
@@ -681,6 +745,31 @@
 
     <!-- Template Main JS File -->
     <script src="static/assets/js/main.js"></script>
+    <script>
+
+    function edit_inquiry(id,status) {
+        fetch(`/edit_inquiry/${id}/${status}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    function delete_inquiry(id) {
+        fetch(`/delete_inquiry/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    </script>
 
 </body>
 

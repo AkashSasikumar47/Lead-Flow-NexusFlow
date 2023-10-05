@@ -1,4 +1,4 @@
-from flask import Flask, render_template ,request,redirect, url_for
+from flask import Flask, render_template ,request,redirect, url_for, jsonify
 from model import *
 import os
 import psycopg2
@@ -35,7 +35,7 @@ def login():
 @app.route('/M-Inquiries',methods=['GET','POST'])
 def Inquiries():
     if request.method == 'GET':
-        Inquiries = Inquiry.query.all()
+        Inquiries = Inquiry.query.order_by(Inquiry.id).all()
         return render_template('M-Inquiries.html',Inquiries=Inquiries)
     if request.method == 'POST':
         a = request.form['floatingName']
@@ -51,6 +51,27 @@ def Inquiries():
         db.session.add(inquiry)
         db.session.commit()
         return redirect('/M-Inquiries')
+    
+
+#/edit_inquiry/${id}/${status}
+@app.route('/edit_inquiry/<int:id>/<string:status>',methods=['GET','POST'])
+def edit_inquiry(id,status):
+    #edit status
+    i = Inquiry.query.filter_by(id=id)
+    i.update({'progress':status})
+    db.session.commit()
+    return jsonify({'message': 'Status Updated'})
+
+#/delete_inquiry/${id}
+@app.route('/delete_inquiry/<int:id>',methods=['GET','POST'])
+def delete_inquiry(id):
+    #delete inquiry
+    i = Inquiry.query.filter_by(id=id).first()
+    db.session.delete(i)
+    db.session.commit()
+    return jsonify({'message': 'Inquiry Deleted'})
+
+    
 
 #/M-Proposals
 @app.route('/M-Proposals',methods=['GET','POST'])
