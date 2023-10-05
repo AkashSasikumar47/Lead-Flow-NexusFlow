@@ -212,7 +212,7 @@ h6 {
 .card {
   margin-bottom: 30px;
   border: none;
-  border-radius: 25px;
+  border-radius: 8px;
   /* Updated border-radius value */
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
