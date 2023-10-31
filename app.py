@@ -8,10 +8,8 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-app.config[
-    "SQLALCHEMY_DATABASE_URI"
-] = "postgresql://postgres:Akash@2001@localhost/Lead_Flow"
-# CORS(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+
 db.init_app(app)
 app.app_context().push()
 
