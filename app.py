@@ -1,110 +1,166 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from model import *
+from model import db, User, Role, Inquiry
 import os
-import psycopg2
 from flask_cors import CORS
-
-# ==============================configuration===============================
+from config import DevelopmentConfig
+from sec import datastore
+from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
+from flask_security import auth_required, roles_required, current_user
+from werkzeug.security import check_password_hash, generate_password_hash
+from flask_restful import marshal, fields
 
 app = Flask(__name__)
+app.config.from_object(DevelopmentConfig)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+app.security = Security(app, datastore)
 
 db.init_app(app)
 app.app_context().push()
 
 
-@app.route("/", methods=["GET", "POST"])
-def home():
-    return render_template("index.html")
+@app.get('/')
+def index():
+    return render_template('index.html')
 
 
-# /ST-general-settings
-@app.route("/ST-general-settings", methods=["GET", "POST"])
-def settings():
-    return render_template("ST-general-settings.html")
+@app.post('/user-login')
+def user_login():
+    data = request.get_json()
+    email = data.get('email')
+    if not email:
+        return jsonify({"message": "email not provided"}), 400
 
+    user = datastore.find_user(email=email)
 
-# /pages-login
+    if not user:
+        return jsonify({"message": "User Not Found"}), 404
+    
+    if not user.active:
+        return jsonify({"message": "User Not Activated"}), 400
+    
 
+    if check_password_hash(user.password, data.get("password")):
+        return jsonify({"token": user.get_auth_token(), "email": user.email, "role": user.roles[0].name, "username": user.username, "id": user.id})
+    else:
+        return jsonify({"message": "Wrong Password"}), 400
 
-@app.route("/pages-login", methods=["GET", "POST"])
-def login():
-    return render_template("pages-login.html")
+user_fields = {
+    "id": fields.Integer,
+    "username": fields.String,
+    "email": fields.String,
+    "active": fields.Boolean,
+}
 
+@app.get('/users')
+@auth_required("token")
+@roles_required("Admin")
+def all_users():
+    users = User.query.all()
+    if len(users) == 0:
+        return jsonify({"message": "No User Found"}), 404
+    return marshal(users, user_fields)
 
-# /M-Inquiries
-
-
-@app.route("/M-Inquiries", methods=["GET", "POST"])
-def Inquiries():
-    if request.method == "GET":
-        Inquiries = Inquiry.query.order_by(Inquiry.id).all()
-        return render_template("M-Inquiries.html", Inquiries=Inquiries)
-    if request.method == "POST":
-        a = request.form["floatingName"]
-        b = request.form["floatingSources"]
-        c = request.form["floatingEventDate"]
-        h = request.form["floatingPax"]
-        d = request.form["floatingFoodType"]
-        e = request.form["floatingEmail"]
-        f = request.form["Contact_number"]
-        g = request.form["status"]
-        # print(a,b,c,d,f,g,h)
-        inquiry = Inquiry(
-            lead_name=a,
-            Sources=b,
-            date_of_event=c,
-            Pax=h,
-            req_food=d,
-            email=e,
-            contact_no=f,
-            progress=g,
-        )
-        db.session.add(inquiry)
-        db.session.commit()
-        return redirect("/M-Inquiries")
-
-
-# /edit_inquiry/${id}/${status}
-@app.route("/edit_inquiry/<int:id>/<string:status>", methods=["GET", "POST"])
-def edit_inquiry(id, status):
-    # edit status
-    i = Inquiry.query.filter_by(id=id)
-    i.update({"progress": status})
+@app.get('/activate/manager/<int:id>')
+@auth_required("token")
+@roles_required("Admin")
+def activate_customer(id):
+    User.query.filter_by(id = id).update({'active':True})
     db.session.commit()
-    return jsonify({"message": "Status Updated"})
+    return jsonify({"message":"Manager activated"})
 
-
-# /delete_inquiry/${id}
-@app.route("/delete_inquiry/<int:id>", methods=["GET", "POST"])
-def delete_inquiry(id):
-    # delete inquiry
-    i = Inquiry.query.filter_by(id=id).first()
-    db.session.delete(i)
+@app.get('/deactivate/manager/<int:id>')
+@auth_required("token")
+@roles_required("Admin")
+def deactivate_customer(id):
+    User.query.filter_by(id = id).update({'active':False})
     db.session.commit()
-    return jsonify({"message": "Inquiry Deleted"})
+    return jsonify({"message":"Manager deactivated"})
 
 
-# /M-Proposals
-@app.route("/M-Proposals", methods=["GET", "POST"])
-def Proposals():
-    return render_template("M-Proposals.html")
 
 
-# /ST-user-settings
 
 
-@app.route("/ST-user-settings", methods=["GET", "POST"])
-def usersettings():
-    return render_template("ST-user-settings.html")
+@app.get('/api/getleads')
+@auth_required("token")
+@roles_required("Manager")
+def getleads():
+    leads = Inquiry.query.all()
+    leadlist = []
+    for lead in leads:
+        leadlist.append({'id':lead.id,'name':lead.lead_name,'email':lead.email,'contact':lead.contact_no,'date':lead.date_of_event,'pax':lead.Pax,'food':lead.req_food,'source':lead.Sources,'status':lead.progress})
+    return jsonify(leadlist),200
 
 
-# /pages-contact
-@app.route("/pages-contact", methods=["GET", "POST"])
-def pagescontact():
-    return render_template("pages-contact.html")
+
+@app.post('/api/addlead')
+@auth_required("token")
+@roles_required("Manager")
+def addlead():
+    data = request.get_json()
+    name = data.get('Name')
+    email = data.get('Email')
+    contact = data.get('ContactNumber')
+    date = data.get('Date')
+    pax = data.get('Pax')
+    food = data.get('FoodType')
+    source = data.get('Sources')
+    status = data.get('status')
+
+    if not name:
+        return jsonify({'message':'name is required'}),400
+    if not email:
+        return jsonify({'message':'email is required'}),400
+    if not contact:
+        return jsonify({'message':'contact is required'}),400
+    if not date:
+        return jsonify({'message':'date is required'}),400
+    if not pax:
+        return jsonify({'message':'pax is required'}),400
+    if not food:
+        return jsonify({'message':'food is required'}),400
+    if not source:
+        return jsonify({'message':'source is required'}),400
+    if not status:
+        return jsonify({'message':'status is required'}),400
+    
 
 
-if __name__ == "__main__":
+    lead = Inquiry(lead_name=name,email=email,contact_no=contact,date_of_event=date,Pax=pax,req_food=food,Sources=source,progress=status)
+    db.session.add(lead)
+    db.session.commit()
+    return jsonify({'message':'success'}),200
+
+
+
+@app.delete('/api/deletelead/<int:id>')
+@auth_required("token")
+@roles_required("Manager")
+def deletelead(id):
+    lead = Inquiry.query.get_or_404(id)
+    db.session.delete(lead)
+    db.session.commit()
+    return jsonify({'message':'success'}),200
+
+
+@app.put('/api/updateleadstatus/<int:id>')
+@auth_required("token")
+@roles_required("Manager")
+def updateleadstatus(id):
+    lead = Inquiry.query.get_or_404(id)
+    data = request.get_json()
+    lead.progress = data.get('status')
+    db.session.commit()
+    return jsonify({'message':'success'}),200
+
+
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
     app.run(debug=True)
