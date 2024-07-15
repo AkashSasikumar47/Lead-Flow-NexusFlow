@@ -8,20 +8,21 @@ from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMix
 from flask_security import auth_required, roles_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_restful import marshal, fields
+from api import *
+from datetime import datetime, timedelta
+from sqlalchemy import func
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
-
+api.init_app(app)
 app.security = Security(app, datastore)
 
 db.init_app(app)
 app.app_context().push()
 
-
 @app.get('/')
 def index():
     return render_template('index.html')
-
 
 @app.post('/user-login')
 def user_login():
@@ -38,7 +39,6 @@ def user_login():
     if not user.active:
         return jsonify({"message": "User Not Activated"}), 400
     
-
     if check_password_hash(user.password, data.get("password")):
         return jsonify({"token": user.get_auth_token(), "email": user.email, "role": user.roles[0].name, "username": user.username, "id": user.id})
     else:
@@ -76,91 +76,104 @@ def deactivate_customer(id):
     db.session.commit()
     return jsonify({"message":"Manager deactivated"})
 
-
-
-
-
-
-@app.get('/api/getleads')
+@app.route('/api/dashboard-data')
 @auth_required("token")
 @roles_required("Manager")
-def getleads():
-    leads = Inquiry.query.all()
-    leadlist = []
-    for lead in leads:
-        leadlist.append({'id':lead.id,'name':lead.lead_name,'email':lead.email,'contact':lead.contact_no,'date':lead.date_of_event,'pax':lead.Pax,'food':lead.req_food,'source':lead.Sources,'status':lead.progress})
-    return jsonify(leadlist),200
+def dashboard_data():
+    try:
+        date_range = request.args.get('dateRange', 'week')
+        start_date = request.args.get('startDate')
+        end_date = request.args.get('endDate')
 
+        # Calculate date range based on input
+        if date_range == 'week':
+            end_date = datetime.utcnow().date()
+            start_date = end_date - timedelta(days=7)
+        elif date_range == 'month':
+            end_date = datetime.utcnow().date()
+            start_date = end_date - timedelta(days=30)
+        elif date_range == 'year':
+            end_date = datetime.utcnow().date()
+            start_date = end_date - timedelta(days=365)
+        else:
+            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
 
+        # Query data based on date range
+        inquiries = Inquiry.query.filter(func.date(Inquiry.date_of_event) >= start_date,
+                                         func.date(Inquiry.date_of_event) <= end_date).all()
 
-@app.post('/api/addlead')
-@auth_required("token")
-@roles_required("Manager")
-def addlead():
-    data = request.get_json()
-    name = data.get('Name')
-    email = data.get('Email')
-    contact = data.get('ContactNumber')
-    date = data.get('Date')
-    pax = data.get('Pax')
-    food = data.get('FoodType')
-    source = data.get('Sources')
-    status = data.get('status')
+        total_leads = len(inquiries)
+        confirmed_leads = sum(1 for inq in inquiries if inq.progress == 'Confirmed')
+        
+        # Calculate metrics
+        conversion_rate = (confirmed_leads / total_leads * 100) if total_leads > 0 else 0
+        
+        # Assuming each confirmed lead results in a deal with an average value of $1000
+        estimated_revenue = confirmed_leads * 1000
+        
+        # Calculate changes compared to previous period
+        previous_start = start_date - (end_date - start_date)
+        previous_inquiries = Inquiry.query.filter(func.date(Inquiry.date_of_event) >= previous_start,
+                                                  func.date(Inquiry.date_of_event) < start_date).all()
+        previous_total = len(previous_inquiries)
+        previous_confirmed = sum(1 for inq in previous_inquiries if inq.progress == 'Confirmed')
+        previous_conversion_rate = (previous_confirmed / previous_total * 100) if previous_total > 0 else 0
+        previous_revenue = previous_confirmed * 1000
 
-    if not name:
-        return jsonify({'message':'name is required'}),400
-    if not email:
-        return jsonify({'message':'email is required'}),400
-    if not contact:
-        return jsonify({'message':'contact is required'}),400
-    if not date:
-        return jsonify({'message':'date is required'}),400
-    if not pax:
-        return jsonify({'message':'pax is required'}),400
-    if not food:
-        return jsonify({'message':'food is required'}),400
-    if not source:
-        return jsonify({'message':'source is required'}),400
-    if not status:
-        return jsonify({'message':'status is required'}),400
-    
+        lead_growth_rate = ((total_leads - previous_total) / previous_total * 100) if previous_total > 0 else 0
+        conversion_rate_change = conversion_rate - previous_conversion_rate
+        revenue_change = ((estimated_revenue - previous_revenue) / previous_revenue * 100) if previous_revenue > 0 else 0
 
+        # Prepare data for charts
+        lead_trends_data = [{'date': inq.date_of_event, 'value': 1} for inq in inquiries]
+        top_company_fields = db.session.query(Inquiry.Company_Name, func.count(Inquiry.id).label('count'))\
+            .filter(func.date(Inquiry.date_of_event) >= start_date, func.date(Inquiry.date_of_event) <= end_date)\
+            .group_by(Inquiry.Company_Name)\
+            .order_by(func.count(Inquiry.id).desc())\
+            .limit(5).all()
+        regional_distribution = db.session.query(Inquiry.Location_Area, func.count(Inquiry.id).label('count'))\
+            .filter(func.date(Inquiry.date_of_event) >= start_date, func.date(Inquiry.date_of_event) <= end_date)\
+            .group_by(Inquiry.Location_Area)\
+            .order_by(func.count(Inquiry.id).desc()).all()
 
-    lead = Inquiry(lead_name=name,email=email,contact_no=contact,date_of_event=date,Pax=pax,req_food=food,Sources=source,progress=status)
-    db.session.add(lead)
-    db.session.commit()
-    return jsonify({'message':'success'}),200
+        return jsonify({
+            'totalLeads': total_leads,
+            'leadGrowthRate': round(lead_growth_rate, 2),
+            'conversionRate': round(conversion_rate, 2),
+            'conversionRateChange': round(conversion_rate_change, 2),
+            'estimatedRevenue': estimated_revenue,
+            'revenueChange': round(revenue_change, 2),
+            'averageDealSize': 1000,  # Assuming a fixed deal size for simplicity
+            'dealSizeChange': 0,  # Assuming no change in deal size for simplicity
+            'leadTrendsData': lead_trends_data,
+            'topCompanyFields': [{'field': field, 'value': count} for field, count in top_company_fields],
+            'regionalDistribution': [{'region': region, 'value': count} for region, count in regional_distribution],
+            'engagementMetrics': [
+                {'metric': 'Confirmed Rate', 'value': round(conversion_rate, 2)},
+                {'metric': 'In Progress Rate', 'value': round((sum(1 for inq in inquiries if inq.progress == 'In progress') / total_leads * 100), 2)},
+                {'metric': 'New Inquiries', 'value': round((sum(1 for inq in inquiries if inq.progress == 'New') / total_leads * 100), 2)},
+                #lost leads
+                {'metric': 'Lost Leads', 'value': round((sum(1 for inq in inquiries if inq.progress == 'Lost') / total_leads * 100), 2)},
+            ],
+            'salesFunnelData': [
+                {'stage': 'New', 'value': sum(1 for inq in inquiries if inq.progress == 'New')},
+                {'stage': 'In Progress', 'value': sum(1 for inq in inquiries if inq.progress == 'In progress')},
+                {'stage': 'Confirmed', 'value': confirmed_leads},
+                {'stage': 'Lost', 'value': sum(1 for inq in inquiries if inq.progress == 'Lost')}
 
+            ],
+            'leadSourceData': [
+                {'source': 'Website', 'value': 40},
+                {'source': 'Referral', 'value': 30},
+                {'source': 'Social Media', 'value': 20},
+                {'source': 'Other', 'value': 10}
+            ]  # This is dummy data, replace with actual lead source data if available
+        })
 
-
-@app.delete('/api/deletelead/<int:id>')
-@auth_required("token")
-@roles_required("Manager")
-def deletelead(id):
-    lead = Inquiry.query.get_or_404(id)
-    db.session.delete(lead)
-    db.session.commit()
-    return jsonify({'message':'success'}),200
-
-
-@app.put('/api/updateleadstatus/<int:id>')
-@auth_required("token")
-@roles_required("Manager")
-def updateleadstatus(id):
-    lead = Inquiry.query.get_or_404(id)
-    data = request.get_json()
-    lead.progress = data.get('status')
-    db.session.commit()
-    return jsonify({'message':'success'}),200
-
-
-
-
-
-
-
-
-
+    except Exception as e:
+        app.logger.error(f"Error in dashboard_data: {e}")
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

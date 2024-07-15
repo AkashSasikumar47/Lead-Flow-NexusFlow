@@ -1,4 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
 
@@ -29,8 +29,9 @@ class Role(db.Model, RoleMixin):
 
 class Inquiry(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    lead_name = db.Column(db.String(100), nullable=False)
-    Sources = db.Column(db.String(100), nullable=False)
+    Company_Name = db.Column(db.String(100), nullable=False)
+    Organizer = db.Column(db.String(100), nullable=False)
+    Location_Area = db.Column(db.String(100), nullable=False)
     date_of_event = db.Column(db.String(100), nullable=False)
     Pax = db.Column(db.Integer, nullable=False)
     req_food = db.Column(db.String(1000), nullable=False)
